@@ -27,7 +27,7 @@
             <p>{{ summary_with_breaks|safe }}</p>
         </div>
         
-        {% set original_link = article.fields.get('原文链接', article.fields.get('链接', article.fields.get('url', article.fields.get('原文', '')))) %}
+        {% set original_link = article.fields.get('链接', '') %}
         {% if original_link %}
         <div class="original-link-section">
             <a href="{{ original_link }}" target="_blank" rel="noopener noreferrer" class="original-link">

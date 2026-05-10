@@ -20,6 +20,20 @@ def get_feishu_token():
         return response.json().get("tenant_access_token")
     return None
 
+def parse_link(value):
+    if isinstance(value, dict):
+        return value.get('link', value.get('url', value.get('text', str(value))))
+    if isinstance(value, str):
+        return value
+    if isinstance(value, list):
+        for item in value:
+            if isinstance(item, dict):
+                link = item.get('link', item.get('url', ''))
+                if link:
+                    return link
+        return ''
+    return str(value) if value else ""
+
 def parse_richtext(content):
     if isinstance(content, list):
         result = ""
@@ -52,7 +66,10 @@ def fetch_records():
         for item in items:
             fields = item.get("fields", {})
             for key, value in fields.items():
-                fields[key] = parse_richtext(value)
+                if key == '链接':
+                    fields[key] = parse_link(value)
+                else:
+                    fields[key] = parse_richtext(value)
         return items
     return []
 
