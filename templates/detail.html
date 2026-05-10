@@ -20,7 +20,11 @@
     </div>
     
     <div class="detail-content">
-        {% set content = article.fields.get('内容输出', article.fields.get('概要内容输出', '')) %}
+        {% set title = article.fields.get('标题', '') %}
+        {% set content = article.fields.get('全文内容提取', article.fields.get('内容输出', article.fields.get('概要内容输出', ''))) %}
+        {% if title and content.startswith(title) %}
+            {% set content = content[len(title):].strip() %}
+        {% endif %}
         {% for paragraph in content.split('\n') if paragraph.strip() %}
         <p>{{ paragraph.strip() }}</p>
         {% endfor %}
