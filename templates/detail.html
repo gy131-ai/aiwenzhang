@@ -20,12 +20,20 @@
     </div>
     
     <div class="detail-content">
-        {% set title = article.fields.get('标题', '') %}
-        {% set content = article.fields.get('全文内容提取', article.fields.get('内容输出', article.fields.get('概要内容输出', ''))) %}
-        {% if title and content.startswith(title) %}
-            {% set content = content[len(title):].strip() %}
+        <div class="summary-section">
+            <h3>概要内容</h3>
+            {% set summary = article.fields.get('概要内容输出', '') %}
+            {% set summary_with_breaks = summary.replace('\n\n', '</p><p>').replace('\n', '<br>') %}
+            <p>{{ summary_with_breaks|safe }}</p>
+        </div>
+        
+        {% set original_link = article.fields.get('原文链接', '') %}
+        {% if original_link %}
+        <div class="original-link-section">
+            <a href="{{ original_link }}" target="_blank" rel="noopener noreferrer" class="original-link">
+                🔗 查看原文
+            </a>
+        </div>
         {% endif %}
-        {% set content_with_breaks = content.replace('\n\n', '</p><p>').replace('\n', '<br>') %}
-        <p>{{ content_with_breaks|safe }}</p>
     </div>
 {% endblock %}

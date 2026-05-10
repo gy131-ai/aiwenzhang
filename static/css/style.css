@@ -200,6 +200,44 @@ main {
     margin-bottom: 20px;
 }
 
+.summary-section {
+    margin-bottom: 30px;
+}
+
+.summary-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #c41e3a;
+    display: inline-block;
+}
+
+.original-link-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e8e8ed;
+}
+
+.original-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #c41e3a;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.original-link:hover {
+    background: #a31830;
+    transform: scale(1.02);
+}
+
 .back-link {
     display: inline-flex;
     align-items: center;
