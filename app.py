@@ -22,13 +22,20 @@ def get_feishu_token():
 
 def parse_richtext(content):
     if isinstance(content, list):
-        text = ""
+        result = ""
         for item in content:
-            if isinstance(item, dict) and 'text' in item:
-                text += item['text']
+            if isinstance(item, dict):
+                if 'text' in item:
+                    result += item['text']
+                elif 'type' in item and item['type'] == 'image' and 'image_key' in item:
+                    image_key = item['image_key']
+                    width = item.get('width', 600)
+                    height = item.get('height', 400)
+                    image_url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app.config['BASE_ID']}/images/{image_key}/raw"
+                    result += f'<img src="{image_url}" style="max-width: 100%; height: auto; border-radius: 12px; margin: 15px 0;" />'
             elif isinstance(item, str):
-                text += item
-        return text
+                result += item
+        return result
     return str(content) if content else ""
 
 def fetch_records():
