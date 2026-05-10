@@ -20,6 +20,9 @@
     </div>
     
     <div class="detail-content">
-        <p>{{ article.fields.get('概要内容输出', '') }}</p>
+        {% set content = article.fields.get('内容输出', article.fields.get('概要内容输出', '')) %}
+        {% for paragraph in content.split('\n') if paragraph.strip() %}
+        <p>{{ paragraph.strip() }}</p>
+        {% endfor %}
     </div>
 {% endblock %}
