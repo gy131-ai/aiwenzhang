@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Ying's Blog{% endblock %}
+
+{% block content %}
+    <div class="article-list">
+        {% if articles %}
+            {% for article in articles %}
+                <article class="article-card">
+                    <h2 class="article-title">
+                        <a href="/article/{{ article.record_id }}" target="_blank" rel="noopener noreferrer">
+                            {{ article.fields.get('标题', '未命名文章') }}
+                        </a>
+                    </h2>
+                    <div class="golden-quote">
+                        {{ article.fields.get('金句输出', '') }}
+                    </div>
+                    <div class="comment">
+                        {{ article.fields.get('黄叔点评', '') }}
+                    </div>
+                    <p class="summary">
+                        {{ article.fields.get('概要内容输出', '')[:100] }}{% if article.fields.get('概要内容输出', '')|length > 100 %}...{% endif %}
+                    </p>
+                    <a href="/article/{{ article.record_id }}" class="read-more" target="_blank" rel="noopener noreferrer">
+                        阅读全文 →
+                    </a>
+                </article>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <h2>暂无文章</h2>
+                <p>请在飞书多维表格中添加文章内容</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

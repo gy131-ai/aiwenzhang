@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.fields.get('标题', 'Article') }} - Ying's Blog{% endblock %}
+
+{% block content %}
+    <a href="/" class="back-link">
+        ← 返回首页
+    </a>
+    
+    <div class="detail-header">
+        <h1 class="detail-title">
+            {{ article.fields.get('标题', '未命名文章') }}
+        </h1>
+        <div class="detail-quote">
+            {{ article.fields.get('金句输出', '') }}
+        </div>
+        <div class="detail-comment">
+            {{ article.fields.get('黄叔点评', '') }}
+        </div>
+    </div>
+    
+    <div class="detail-content">
+        <p>{{ article.fields.get('概要内容输出', '') }}</p>
+    </div>
+{% endblock %}
