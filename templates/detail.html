@@ -25,6 +25,7 @@
         {% if title and content.startswith(title) %}
             {% set content = content[len(title):].strip() %}
         {% endif %}
-        {{ content|safe }}
+        {% set content_with_breaks = content.replace('\n\n', '</p><p>').replace('\n', '<br>') %}
+        <p>{{ content_with_breaks|safe }}</p>
     </div>
 {% endblock %}

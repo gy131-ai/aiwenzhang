@@ -29,10 +29,9 @@ def parse_richtext(content):
                     result += item['text']
                 elif 'type' in item and item['type'] == 'image' and 'image_key' in item:
                     image_key = item['image_key']
-                    width = item.get('width', 600)
-                    height = item.get('height', 400)
-                    image_url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app.config['BASE_ID']}/images/{image_key}/raw"
-                    result += f'<img src="{image_url}" style="max-width: 100%; height: auto; border-radius: 12px; margin: 15px 0;" />'
+                    result += f'<img src="/image/{image_key}" style="max-width: 100%; height: auto; border-radius: 12px; margin: 15px 0;" />'
+                elif 'type' in item and item['type'] == 'paragraph':
+                    result += '\n'
             elif isinstance(item, str):
                 result += item
         return result
@@ -81,6 +80,20 @@ def article_detail(record_id):
     if not record:
         return "文章未找到", 404
     return render_template('detail.html', article=record)
+
+@app.route('/image/<image_key>')
+def serve_image(image_key):
+    token = get_feishu_token()
+    if not token:
+        return "获取token失败", 500
+    
+    url = f"https://open.feishu.cn/open-apis/bitable/v1/apps/{app.config['BASE_ID']}/images/{image_key}/raw"
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.get(url, headers=headers, stream=True)
+    
+    if response.status_code == 200:
+        return response.content, response.status_code, {'Content-Type': response.headers.get('Content-Type', 'image/jpeg')}
+    return "图片获取失败", 404
 
 @app.route('/refresh')
 def refresh():
